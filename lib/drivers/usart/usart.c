@@ -122,8 +122,6 @@ Status USART_Init(USART_Init_Config *init_config) {
         init_config->instance->CR2 |= USART_CR2_LBDIE;
     }
 
-    //dummy comment
-
     DISABLE_IRQ();
     if (init_config->instance == USART1) {
         NVIC_Set_Priority(USART1_IRQn, init_config->interrupt_priority);
