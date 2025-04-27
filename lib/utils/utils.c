@@ -78,7 +78,7 @@ void Delay_Loop(uint32_t delay_ms) {
 
 /**
  * @brief  Initialises Systick as a time base
- * @param  unit: Unit of time for the time base
+ * @param  unit: Unit of time for the time base. Limited to seconds, milliseconds and microseconds
  * @retval Status indicating success or invalid parameters
  */
 Status Systick_Init(Systick_Base_Unit unit) {
