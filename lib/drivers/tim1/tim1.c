@@ -164,7 +164,7 @@ Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
 
     //validate interrupt priority level and selection
     if (Validate_Priority(ic_config->interrupt_priority) == INVALID_PARAM
-        || ic_config->selection                          == CC_OUTPUT) {
+        || ic_config->selection                          == TIM1_CC_OUTPUT) {
         return INVALID_PARAM;
     }
 
@@ -208,10 +208,28 @@ Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
 
     //configure polarity
     TIM1->CCER |= (((uint32_t) ic_config->polarity) << (1U + ((ic_config->channel - 1) * 4U)));
+    switch (ic_config->polarity) {
+        case TIM1_CC_NON_INV_RISING: {
+            TIM1->CCER &= ~(SET_ONE << (1U + ((ic_config->channel - 1) * 4U)));
+            TIM1->CCER &= ~(SET_ONE << (3U + ((ic_config->channel - 1) * 4U)));
+        }
+        break;
+        case TIM1_CC_INV_FALLING: {
+            TIM1->CCER |= (SET_ONE << (1U + ((ic_config->channel - 1) * 4U)));
+            TIM1->CCER &= ~(SET_ONE << (3U + ((ic_config->channel - 1) * 4U)));
+        }
+        break;
+        case TIM1_CC_NON_INV_BOTH: {
+            TIM1->CCER |= (SET_ONE << (1U + ((ic_config->channel - 1) * 4U)));
+            TIM1->CCER |= (SET_ONE << (3U + ((ic_config->channel - 1) * 4U)));
+        }
+        break;
+        default: return INVALID_PARAM;
+    }
     
     //configure interrupts
     switch (ic_config->interrupt_enable) {
-        case CC_INTERRUPT_ENABLED: {
+        case TIM1_CC_INTERRUPT_ENABLED: {
             TIM1->DIER |= (SET_ONE << ic_config->channel);
             DISABLE_IRQ();
             NVIC_Set_Priority(TIM1_CC_IRQn, ic_config->interrupt_priority);
@@ -219,14 +237,14 @@ Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
             ENABLE_IRQ();
             break;
         }
-        case CC_INTERRUPT_DISABLED: TIM1->DIER &= ~(SET_ONE << ic_config->channel); break;
+        case TIM1_CC_INTERRUPT_DISABLED: TIM1->DIER &= ~(SET_ONE << ic_config->channel); break;
         default: return INVALID_PARAM;
     }
 
     //configure DMA
     switch (ic_config->dma_enable) {
-        case CC_DMA_ENABLED: TIM1->DIER  |= (SET_ONE << (ic_config->channel + 8U)); break;
-        case CC_DMA_DISABLED: TIM1->DIER &= ~(SET_ONE << (ic_config->channel + 8U)); break;
+        case TIM1_CC_DMA_ENABLED: TIM1->DIER  |= (SET_ONE << (ic_config->channel + 8U)); break;
+        case TIM1_CC_DMA_DISABLED: TIM1->DIER &= ~(SET_ONE << (ic_config->channel + 8U)); break;
         default: return INVALID_PARAM;
     }
         
@@ -292,8 +310,8 @@ Status TIM1_PWM_Input_Init(TIM1_PWM_Input_Config *pwm_input_config) {
     //configure trigger input
     TIM1->SMCR &= ~(TIM_SMCR_TS);
     switch (pwm_input_config->trigger_selection) {
-        case FILTERED_TI1: TIM1->SMCR |= TIM_SMCR_TS_TI1FP1; break;
-        case FILTERED_TI2: TIM1->SMCR |= TIM_SMCR_TS_TI2FP2; break;
+        case TIM1_FILTERED_TI1: TIM1->SMCR |= TIM_SMCR_TS_TI1FP1; break;
+        case TIM1_FILTERED_TI2: TIM1->SMCR |= TIM_SMCR_TS_TI2FP2; break;
         default: return INVALID_PARAM;  
     }
 
@@ -326,6 +344,14 @@ Status TIM1_OC_Init(TIM1_OC_Config *oc_config) {
     if (Validate_TIM1_Channel(oc_config->channel) == INVALID_PARAM) {
         return INVALID_PARAM;
     }
+
+    //validate output compare mode
+    if (oc_config->oc_mode    != TIM1_OCM_FROZEN         && oc_config->oc_mode != TIM1_OCM_ACTIVE 
+        && oc_config->oc_mode != TIM1_OCM_INACTIVE       && oc_config->oc_mode != TIM1_OCM_TOGGLE 
+        && oc_config->oc_mode != TIM1_OCM_FORCE_INACTIVE && oc_config->oc_mode != TIM1_OCM_FORCE_ACTIVE 
+        && oc_config->oc_mode != TIM1_OCM_PWM_1          && oc_config->oc_mode != TIM1_OCM_PWM_2) {
+            return INVALID_PARAM;
+        }
 
     //validate availability of interrupt priority level
     if (oc_config->interrupt_enable) {
@@ -390,7 +416,7 @@ Status TIM1_OC_Init(TIM1_OC_Config *oc_config) {
 
     //configure interrupts
     switch (oc_config->interrupt_enable) {
-        case CC_INTERRUPT_ENABLED: {
+        case TIM1_CC_INTERRUPT_ENABLED: {
             TIM1->DIER |= (SET_ONE << oc_config->channel);
             DISABLE_IRQ();
             NVIC_Set_Priority(TIM1_CC_IRQn, oc_config->interrupt_priority);
@@ -398,14 +424,14 @@ Status TIM1_OC_Init(TIM1_OC_Config *oc_config) {
             ENABLE_IRQ();
             break;
         }
-        case CC_INTERRUPT_DISABLED: TIM1->DIER &= ~(SET_ONE << oc_config->channel); break;
+        case TIM1_CC_INTERRUPT_DISABLED: TIM1->DIER &= ~(SET_ONE << oc_config->channel); break;
         default: return INVALID_PARAM;
     }
 
     //configure dma
     switch (oc_config->dma_enable) {
-        case CC_DMA_ENABLED: TIM1->DIER  |= (SET_ONE << (oc_config->channel + 8U)); break;
-        case CC_DMA_DISABLED: TIM1->DIER &= ~(SET_ONE << (oc_config->channel + 8U)); break;
+        case TIM1_CC_DMA_ENABLED: TIM1->DIER  |= (SET_ONE << (oc_config->channel + 8U)); break;
+        case TIM1_CC_DMA_DISABLED: TIM1->DIER &= ~(SET_ONE << (oc_config->channel + 8U)); break;
         default: return INVALID_PARAM;
     }
 
@@ -518,9 +544,9 @@ Status TIM1_Servo_Init(TIM1_Channel channel) {
         .channel = channel,
         .auto_reload = (20000UL - 1UL),
         .duty_cycle = 0.0,
-        .oc_mode = OCM_PWM_1,
-        .polarity = CC_ACTIVE_HIGH,
-        .preload = OC_PRELOAD_ENABLED
+        .oc_mode = TIM1_OCM_PWM_1,
+        .polarity = TIM1_CC_ACTIVE_HIGH,
+        .preload = TIM1_OC_PRELOAD_ENABLED
     };
 
     //initialise PWM output

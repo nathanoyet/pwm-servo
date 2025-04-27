@@ -51,86 +51,92 @@ typedef enum {
 } TIM1_Channel;
 
 typedef enum {
-    CC_OUTPUT = 0,
-    CC_INPUT_MAP_EQ,
-    CC_INPUT_MAP_ALT,
-    CC_INPUT_MAP_TRC
+    TIM1_CC_OUTPUT = 0,
+    TIM1_CC_INPUT_MAP_EQ,
+    TIM1_CC_INPUT_MAP_ALT,
+    TIM1_CC_INPUT_MAP_TRC
 } TIM1_CC_Selection;
 
 typedef enum {
-    CC_PSC_0 = 0,
-    CC_PSC_2,
-    CC_PSC_4,
-    CC_PSC_8
+    TIM1_CC_PSC_0 = 0,
+    TIM1_CC_PSC_2,
+    TIM1_CC_PSC_4,
+    TIM1_CC_PSC_8
 } TIM1_CC_Prescaler;
 
 typedef enum {
-    CC_FILTER_0 = 0,
-    CC_FILTER_1,
-    CC_FILTER_2,
-    CC_FILTER_3,
-    CC_FILTER_4,
-    CC_FILTER_5,
-    CC_FILTER_6,
-    CC_FILTER_7,
-    CC_FILTER_8,
-    CC_FILTER_9,
-    CC_FILTER_10,
-    CC_FILTER_11,
-    CC_FILTER_12,
-    CC_FILTER_13,
-    CC_FILTER_14,
-    CC_FILTER_15
+    TIM1_CC_FILTER_0 = 0,
+    TIM1_CC_FILTER_1,
+    TIM1_CC_FILTER_2,
+    TIM1_CC_FILTER_3,
+    TIM1_CC_FILTER_4,
+    TIM1_CC_FILTER_5,
+    TIM1_CC_FILTER_6,
+    TIM1_CC_FILTER_7,
+    TIM1_CC_FILTER_8,
+    TIM1_CC_FILTER_9,
+    TIM1_CC_FILTER_10,
+    TIM1_CC_FILTER_11,
+    TIM1_CC_FILTER_12,
+    TIM1_CC_FILTER_13,
+    TIM1_CC_FILTER_14,
+    TIM1_CC_FILTER_15
 } TIM1_CC_Filter;
 
 typedef enum {
-    CC_ACTIVE_HIGH = 0,
-    CC_ACTIVE_LOW
-} TIM1_CC_Polarity;
+    TIM1_CC_ACTIVE_HIGH = 0,
+    TIM1_CC_ACTIVE_LOW
+} TIM1_CC_Output_Polarity;
 
 typedef enum {
-    CC_INTERRUPT_DISABLED = 0,
-    CC_INTERRUPT_ENABLED
+    TIM1_CC_NON_INV_RISING = 0,
+    TIM1_CC_INV_FALLING,
+    TIM1_CC_NON_INV_BOTH
+} TIM1_CC_Input_Polarity;
+
+typedef enum {
+    TIM1_CC_INTERRUPT_DISABLED = 0,
+    TIM1_CC_INTERRUPT_ENABLED
 } TIM1_CC_Interrupt;
 
 typedef enum {
-    CC_DMA_DISABLED = 0,
-    CC_DMA_ENABLED
+    TIM1_CC_DMA_DISABLED = 0,
+    TIM1_CC_DMA_ENABLED
 } TIM1_CC_DMA;
 
 typedef enum {
-    INTERNAL_TRG_0 = 0,
-    INTERNAL_TRG_1,
-    INTERNAL_TRG_2,
-    INTERNAL_TRG_3,
+    TIM1_INTERNAL_TRG_0 = 0,
+    TIM1_INTERNAL_TRG_1,
+    TIM1_INTERNAL_TRG_2,
+    TIM1_INTERNAL_TRG_3,
 } TIM1_INT_TRG_Selection;
 
 typedef enum {
-    TI1_EDGE_DETECTOR = 0,
-    FILTERED_TI1,
-    FILTERED_TI2,
-    EXTERNAL_TRG_INPUT
+    TIM1_TI1_EDGE_DETECTOR = 0,
+    TIM1_FILTERED_TI1,
+    TIM1_FILTERED_TI2,
+    TIM1_EXTERNAL_TRG_INPUT
 } TIM1_EXT_TRG_Selection;
 
 typedef enum {
-    OCM_FROZEN = 0,
-    OCM_ACTIVE,
-    OCM_INACTIVE,
-    OCM_TOGGLE,
-    OCM_FORCE_INACTIVE,
-    OCM_FORCE_ACTIVE,
-    OCM_PWM_1,
-    OCM_PWM_2
+    TIM1_OCM_FROZEN = 0,
+    TIM1_OCM_ACTIVE,
+    TIM1_OCM_INACTIVE,
+    TIM1_OCM_TOGGLE,
+    TIM1_OCM_FORCE_INACTIVE,
+    TIM1_OCM_FORCE_ACTIVE,
+    TIM1_OCM_PWM_1,
+    TIM1_OCM_PWM_2
 } TIM1_OC_Mode;
 
 typedef enum {
-    OC_PRELOAD_DISABLED = 0,
-    OC_PRELOAD_ENABLED
+    TIM1_OC_PRELOAD_DISABLED = 0,
+    TIM1_OC_PRELOAD_ENABLED
 } TIM1_OC_Preload;
 
 typedef enum {
-    OC_FAST_ENABLE_OFF = 0,
-    OC_FAST_ENABLE_ON
+    TIM1_OC_FAST_ENABLE_OFF = 0,
+    TIM1_OC_FAST_ENABLE_ON
 } TIM1_OC_Fast_Enable;
 
 
@@ -158,12 +164,12 @@ typedef struct {
     TIM1_Channel      channel;
     TIM1_CC_Selection selection;
 /************************************ Optional ************************************/
-    TIM1_CC_Prescaler prescaler;
-    TIM1_CC_Filter    filter;
-    TIM1_CC_Polarity  polarity;                //review IC polarity settings in CCER
-    TIM1_CC_Interrupt interrupt_enable;
-    uint32_t          interrupt_priority;     
-    TIM1_CC_DMA       dma_enable;
+    TIM1_CC_Prescaler       prescaler;
+    TIM1_CC_Filter          filter;
+    TIM1_CC_Input_Polarity  polarity;
+    TIM1_CC_Interrupt       interrupt_enable;
+    uint32_t                interrupt_priority;     
+    TIM1_CC_DMA             dma_enable;
 } TIM1_IC_Config;
 
 typedef struct {
@@ -177,8 +183,8 @@ typedef struct {
     TIM1_CC_Prescaler      prescaler_2;
     TIM1_CC_Filter         filter_1;
     TIM1_CC_Filter         filter_2;
-    TIM1_CC_Polarity       polarity_1;
-    TIM1_CC_Polarity       polarity_2;
+    TIM1_CC_Input_Polarity polarity_1;
+    TIM1_CC_Input_Polarity polarity_2;
     TIM1_CC_Interrupt      interrupt_enable_1;
     TIM1_CC_Interrupt      interrupt_enable_2;
     uint32_t               interrupt_priority_1;
@@ -190,33 +196,33 @@ typedef struct {
 
 typedef struct {
 /************************************ Required ************************************/
-    TIM1_Channel        channel;
-    int                 auto_reload;
-    int                 prescaler;
-    int                 compare_value;
-    TIM1_OC_Mode        oc_mode;
+    TIM1_Channel            channel;
+    int                     auto_reload;
+    int                     prescaler;
+    int                     compare_value;
+    TIM1_OC_Mode            oc_mode;
 /************************************ Optional ************************************/
-    TIM1_OC_Preload     preload;
-    TIM1_CC_Polarity    polarity;
-    TIM1_OC_Fast_Enable fast_enable;
-    TIM1_CC_Interrupt   interrupt_enable;
-    uint32_t            interrupt_priority;
-    TIM1_CC_DMA         dma_enable;
+    TIM1_OC_Preload         preload;
+    TIM1_CC_Output_Polarity polarity;
+    TIM1_OC_Fast_Enable     fast_enable;
+    TIM1_CC_Interrupt       interrupt_enable;
+    uint32_t                interrupt_priority;
+    TIM1_CC_DMA             dma_enable;
 } TIM1_OC_Config;
 
 typedef struct {
 /************************************ Required ************************************/
-    TIM1_Channel        channel;
-    int                 auto_reload;
-    float               duty_cycle;
-    TIM1_OC_Mode        oc_mode;
+    TIM1_Channel            channel;
+    int                     auto_reload;
+    float                   duty_cycle;
+    TIM1_OC_Mode            oc_mode;
 /************************************ Optional ************************************/
-    TIM1_OC_Preload     preload;
-    TIM1_CC_Polarity    polarity;
-    TIM1_OC_Fast_Enable fast_enable;
-    TIM1_CC_Interrupt   interrupt_enable;
-    uint32_t            interrupt_priority;
-    TIM1_CC_DMA         dma_enable;
+    TIM1_OC_Preload         preload;
+    TIM1_CC_Output_Polarity polarity;
+    TIM1_OC_Fast_Enable     fast_enable;
+    TIM1_CC_Interrupt       interrupt_enable;
+    uint32_t                interrupt_priority;
+    TIM1_CC_DMA             dma_enable;
 } TIM1_PWM_Output_Config;
 
 
