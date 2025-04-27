@@ -76,28 +76,63 @@ void Delay_Loop(uint32_t delay_ms) {
     }
 }
 
-void Systick_Init_MS(void) {
+/**
+ * @brief  Initialises Systick as a time base
+ * @param  unit: Unit of time for the time base
+ * @retval Status indicating success or invalid parameters
+ */
+Status Systick_Init(Systick_Base_Unit unit) {
+    //initialise global systick time base
     g_systick_time = 0;
-    uint32_t ticks_per_ms = (g_sys_clk_freq / SEC_TO_MILLI);
-    uint32_t reload_val = (ticks_per_ms - 1UL);
-    if (reload_val > 0xFFFFFFFF) {
-        reload_val = 0xFFFFFFFF;
+
+    //validate unit measure of systick time base
+    if (unit != SYSTICK_UNIT_SEC && unit != SYSTICK_UNIT_MILLI && unit != SYSTICK_UNIT_MICRO && unit) {
+        return INVALID_PARAM;
     }
 
+    //calculate reload value
+    uint32_t ticks_per_unit;
+    switch (unit) {
+        case SYSTICK_UNIT_SEC:   ticks_per_unit = g_sys_clk_freq; break;
+        case SYSTICK_UNIT_MILLI: ticks_per_unit = (g_sys_clk_freq / SEC_TO_MILLI); break;
+        case SYSTICK_UNIT_MICRO: ticks_per_unit = (g_sys_clk_freq / SEC_TO_MICRO); break;
+        default: return INVALID_PARAM;
+    }
+    uint32_t reload_val = (ticks_per_unit - 1UL);
+
+    //validate reload value
+    if (reload_val > 0xFFFFFF) {
+        reload_val = 0xFFFFFF;
+    }
+
+    //configure systick
     SYSTICK->CTRL &= ~(SYSTICK_CTRL_ENABLE);
     SYSTICK->LOAD = reload_val;
     SYSTICK->VAL = CLEAR_REGISTER;
     SYSTICK->CTRL |= SYSTICK_CTRL_ENABLE | SYSTICK_CTRL_CLKSOURCE | SYSTICK_CTRL_TICKINT;
+
+    return SUCCESS;
 }
 
-void Delay_Interrupt(uint32_t delay_ms) {
-    if (delay_ms <= 0) {
-        return;
+/**
+ * @brief  Delays program execution
+ * @note   Assumes Systick has been configured as a time base unit via @ref Systick_Init
+ * @param  time_delay: The desired time delay
+ * @retval Status indicating success or invalid parameters
+ */
+Status Systick_Delay(uint32_t time_delay) {
+    //validate time delay
+    if (time_delay <= 0) {
+        return INVALID_PARAM;
     }
+
+    //wait for time delay to elapse
     uint32_t previous_sys_time = g_systick_time;
-    while ((g_systick_time - previous_sys_time) < delay_ms) {
+    while ((g_systick_time - previous_sys_time) < time_delay) {
         NOP();
     }
+
+    return SUCCESS;
 }
 
 
@@ -323,7 +358,7 @@ uint8_t priority_tracker[256];
 
 
 /**********************************************************************************/
-/*                             Interrupt Service Routines                         */
+/*                               Interrupt Handlers                               */
 /**********************************************************************************/
 void SysTick_Handler(void) {
     g_systick_time++;

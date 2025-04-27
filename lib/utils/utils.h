@@ -36,6 +36,12 @@ typedef enum {
     PLL_CLOCK = 3
 } System_Clock_Source;
 
+typedef enum {
+    SYSTICK_UNIT_SEC = 0,
+    SYSTICK_UNIT_MILLI,
+    SYSTICK_UNIT_MICRO
+} Systick_Base_Unit;
+
 
 /**********************************************************************************/
 /*                                Global Constants                                */
@@ -110,9 +116,9 @@ uint8_t priority_tracker[256];
 /***************************** Reset and Clock Control ****************************/
 void   Peripheral_Reset    (void);
 Status System_Clock_Init   (System_Clock_Source clock_source);
-void   Systick_Init_MS     (void);
+Status Systick_Init        (Systick_Base_Unit unit);
+Status Systick_Delay       (uint32_t time_delay);
 void   Delay_Loop          (uint32_t delay_duration_ms);
-void   Delay_Interrupt     (uint32_t delay_ms);
 
 /***************************** Integer Size Validation ****************************/
 Status Validate_uint8_t  (int value);
