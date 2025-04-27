@@ -157,8 +157,10 @@ Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
         return INVALID_PARAM;
     }
 
-    //enable TIM1 clock
-    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+    //validate channel
+    if (Validate_TIM1_Channel(ic_config->channel) == INVALID_PARAM) {
+        return INVALID_PARAM;
+    }
 
     //validate interrupt priority level and selection
     if (Validate_Priority(ic_config->interrupt_priority) == INVALID_PARAM
@@ -172,6 +174,9 @@ Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
             return INVALID_PARAM;
         }
     }
+
+    //enable TIM1 clock
+    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
 
     //disable capture
     TIM1->CCER &= ~(SET_ONE << ((ic_config->channel - 1U) * 4U));
@@ -317,6 +322,11 @@ Status TIM1_OC_Init(TIM1_OC_Config *oc_config) {
         return INVALID_PARAM;
     }
 
+    //validate channel
+    if (Validate_TIM1_Channel(oc_config->channel) == INVALID_PARAM) {
+        return INVALID_PARAM;
+    }
+
     //validate availability of interrupt priority level
     if (oc_config->interrupt_enable) {
         if (priority_tracker[oc_config->interrupt_priority]) {
@@ -431,6 +441,11 @@ Status TIM1_PWM_Output_Init(TIM1_PWM_Output_Config *pwm_output_config) {
         return INVALID_PARAM;
     }
 
+    //validate channel
+    if (Validate_TIM1_Channel(pwm_output_config->channel) == INVALID_PARAM) {
+        return INVALID_PARAM;
+    }
+
     //validate duty cycle
     if (pwm_output_config->duty_cycle < 0 || pwm_output_config->duty_cycle > 1) {
         return INVALID_PARAM;
@@ -533,6 +548,14 @@ Status TIM1_Servo_Set_Position(TIM1_Channel channel, float degrees) {
     return SUCCESS;
 }
 
+Status Validate_TIM1_Channel(TIM1_Channel channel) {
+    if (channel != TIM1_CHANNEL_1 && channel != TIM1_CHANNEL_2 && channel != TIM1_CHANNEL_3 
+        && channel != TIM1_CHANNEL_4) {
+            return INVALID_PARAM;
+        }
+    
+    return SUCCESS;
+}
 
 
 /**********************************************************************************/

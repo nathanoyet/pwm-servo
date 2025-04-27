@@ -234,6 +234,7 @@ Status TIM1_PWM_Output_Init      (TIM1_PWM_Output_Config *pwm_output_config);
 Status TIM1_PWM_Set_Duty_Cycle   (TIM1_Channel channel, float duty_cycle_input);
 Status TIM1_Servo_Init           (TIM1_Channel channel);
 Status TIM1_Servo_Set_Position   (TIM1_Channel channel, float degrees);
+Status Validate_TIM1_Channel     (TIM1_Channel channel);
 void   TIM1_UP_TIM10_IRQHandler  (void);
 
 
