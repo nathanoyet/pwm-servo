@@ -6,7 +6,7 @@
 /**********************************************************************************/
 
 //gpio pins should be configured prior to USART being initialised
-Status USART_Init(USART_Init_Config *init_config) {
+Status USART_Init(USART_Init_Config_t *init_config) {
     //validate config struct pointer
     if (!(init_config)) {
         return INVALID_PARAM;
@@ -149,7 +149,7 @@ Status USART_Init(USART_Init_Config *init_config) {
 
 
 
-Status USART_Transmit(USART_Init_Config *init_config, uint8_t *tx_data, uint16_t tx_length) {
+Status USART_Transmit(USART_Init_Config_t *init_config, uint8_t *tx_data, uint16_t tx_length) {
     //validate config struct pointer and length
     if ((!(init_config)) || tx_length <= 0) {
         return INVALID_PARAM;
@@ -184,7 +184,7 @@ Status USART_Transmit(USART_Init_Config *init_config, uint8_t *tx_data, uint16_t
 }
 
 
-Status USART_Receive(USART_Init_Config *init_config, uint8_t *rx_buffer, uint16_t rx_length) {
+Status USART_Receive(USART_Init_Config_t *init_config, uint8_t *rx_buffer, uint16_t rx_length) {
     //validate config struct pointer and length
     if ((!(init_config)) || rx_length <= 0) {
         return INVALID_PARAM;
@@ -223,7 +223,7 @@ Status USART_Receive(USART_Init_Config *init_config, uint8_t *rx_buffer, uint16_
 
 
 
-static USART_Index Get_USART_Index(USART_TypeDef *instance) {
+static USART_Index Get_USART_Index(USART_t *instance) {
     if (instance == USART1) {
         return USART1_Index;
     } else if (instance == USART2) {
@@ -242,8 +242,8 @@ static USART_Index Get_USART_Index(USART_TypeDef *instance) {
 
 void USART_IRQHandler(USART_Index usart_index) {
     //alias usart state and usart state config
-    USART_State_Config *usart_state = &usart_states[usart_index];
-    USART_Init_Config *config       = usart_state->init_config;
+    USART_State_Config_t *usart_state = &usart_states[usart_index];
+    USART_Init_Config_t *config       = usart_state->init_config;
 
     //handle TXE interrupt
     if (config->instance->SR & USART_SR_TXE) {

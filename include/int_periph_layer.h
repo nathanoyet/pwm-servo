@@ -48,13 +48,13 @@ typedef struct {
     volatile const uint32_t ISAR[5];
     uint32_t RESERVED[5];
     volatile uint32_t CPACR;
-} SCB_TypeDef;
+} SCB_t;
 
 /***************** SCNSCB Peripheral register structure definition ****************/
 typedef struct {
     uint32_t RESERVED[2];
     volatile uint32_t ACTLR; 
-} SCNSCB_TypeDef;
+} SCNSCB_t;
 
 
 /***************** NVIC Peripheral register structure definition ******************/
@@ -71,7 +71,7 @@ typedef struct {
     uint32_t RESERVED_4[56];
     volatile uint8_t IPR[240];
     volatile uint32_t STIR;
-} NVIC_TypeDef;
+} NVIC_t;
 
 /******** System Timer (SYSTICK) Peripheral register structure definition *********/
 typedef struct {
@@ -79,7 +79,7 @@ typedef struct {
     volatile uint32_t LOAD;
     volatile uint32_t VAL;
     volatile const uint32_t CALIB;
-} SYSTICK_TypeDef;
+} SYSTICK_t;
 
 
 
@@ -87,10 +87,10 @@ typedef struct {
 /*                         Internal Peripheral Declaration                        */
 /**********************************************************************************/
 
-#define SCB                         ((SCB_TypeDef *) SCB_BASE)
-#define SCNSCB                      ((SCNSCB_TypeDef *) SCS_BASE)
-#define SYSTICK                     ((SYSTICK_TypeDef *) SYSTICK_BASE)
-#define NVIC                        ((NVIC_TypeDef *) NVIC_BASE)
+#define SCB                         ((SCB_t *) SCB_BASE)
+#define SCNSCB                      ((SCNSCB_t *) SCS_BASE)
+#define SYSTICK                     ((SYSTICK_t *) SYSTICK_BASE)
+#define NVIC                        ((NVIC_t *) NVIC_BASE)
 
 
 

@@ -32,7 +32,7 @@ int main(void) {
     System_Clock_Init(HSI_CLOCK);
 
     //configure gpio in PWM output mode
-    GPIO_Config gpio_settings = {
+    GPIO_Config_t gpio_settings = {
         .port = GPIOA,
         .pin = GPIO_PIN_8,
         .mode = GPIO_MODE_AF,
@@ -44,7 +44,7 @@ int main(void) {
     GPIO_Init(&gpio_settings);
 
     //initialise tim1
-    TIM1_CNT_Config tim1_cnt_settings = {
+    TIM1_CNT_Config_t tim1_cnt_settings = {
         .direction = TIM1_DIR_UP,
         .auto_reload = 1000UL,
         .prescaler = 16UL,

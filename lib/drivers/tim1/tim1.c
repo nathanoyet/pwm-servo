@@ -9,7 +9,7 @@
  * @param  cnt_config: Pointer to TIM1_CNT_Config structure containing counter settings
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_CNT_Init(TIM1_CNT_Config *cnt_config) {
+Status TIM1_CNT_Init(TIM1_CNT_Config_t *cnt_config) {
     //validate config struct pointer
     if (!(cnt_config)) {
         return INVALID_PARAM;
@@ -115,7 +115,7 @@ Status TIM1_CNT_Init(TIM1_CNT_Config *cnt_config) {
  * @param  cnt_config: Pointer to TIM1_CNT_Config structure containing counter settings
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_MS_Base_Init(TIM1_CNT_Config *cnt_config) {
+Status TIM1_MS_Base_Init(TIM1_CNT_Config_t *cnt_config) {
     //set global tim1 time to 0
     g_tim1_time = 0;
 
@@ -151,7 +151,7 @@ Status TIM1_Delay(uint32_t delay_ms) {
  * @param  ic_config: Pointer to TIM1_IC_Config structure containing input capture settings
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
+Status TIM1_IC_Init(TIM1_IC_Config_t *ic_config) {
     //validate config struct pointer
     if (!ic_config) {
         return INVALID_PARAM;
@@ -271,7 +271,7 @@ Status TIM1_IC_Init(TIM1_IC_Config *ic_config) {
  * @param  pwm_input_config: Pointer to TIM1_PWM_Input_Config structure containing PWM input settings
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_PWM_Input_Init(TIM1_PWM_Input_Config *pwm_input_config) {
+Status TIM1_PWM_Input_Init(TIM1_PWM_Input_Config_t *pwm_input_config) {
     //validate config struct pointer
     if (!pwm_input_config) {
         return INVALID_PARAM;
@@ -284,7 +284,7 @@ Status TIM1_PWM_Input_Init(TIM1_PWM_Input_Config *pwm_input_config) {
     }
 
     //configure channel 1
-    TIM1_IC_Config input_channel_1 = {
+    TIM1_IC_Config_t input_channel_1 = {
         .channel            = pwm_input_config->channel_1,
         .selection          = pwm_input_config->selection_1,
         .prescaler          = pwm_input_config->prescaler_1,
@@ -296,7 +296,7 @@ Status TIM1_PWM_Input_Init(TIM1_PWM_Input_Config *pwm_input_config) {
     };
 
     //configure channel 2
-    TIM1_IC_Config input_channel_2 = {
+    TIM1_IC_Config_t input_channel_2 = {
         .channel            = pwm_input_config->channel_2,
         .selection          = pwm_input_config->selection_2,
         .prescaler          = pwm_input_config->prescaler_2,
@@ -334,7 +334,7 @@ Status TIM1_PWM_Input_Init(TIM1_PWM_Input_Config *pwm_input_config) {
  * @param  oc_config: Pointer to TIM1_OC_Config structure containing output compare settings
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_OC_Init(TIM1_OC_Config *oc_config) {
+Status TIM1_OC_Init(TIM1_OC_Config_t *oc_config) {
     //validate config struct pointer
     if (!oc_config) {
         return INVALID_PARAM;
@@ -461,7 +461,7 @@ Status TIM1_OC_Init(TIM1_OC_Config *oc_config) {
  * @param  pwm_output_config: Pointer to TIM1_PWM_Output_Config structure containing PWM output settings
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_PWM_Output_Init(TIM1_PWM_Output_Config *pwm_output_config) {
+Status TIM1_PWM_Output_Init(TIM1_PWM_Output_Config_t *pwm_output_config) {
     //validate config struct pointer
     if (!pwm_output_config) {
         return INVALID_PARAM;
@@ -478,7 +478,7 @@ Status TIM1_PWM_Output_Init(TIM1_PWM_Output_Config *pwm_output_config) {
     }
 
     //configure channel as PWM output
-    TIM1_OC_Config pwm_channel = {
+    TIM1_OC_Config_t pwm_channel = {
         .channel            = pwm_output_config->channel,
         .auto_reload        = pwm_output_config->auto_reload,
         .compare_value      = (uint16_t)(((float) pwm_output_config->auto_reload) 
@@ -540,7 +540,7 @@ Status TIM1_PWM_Set_Duty_Cycle(TIM1_Channel channel, float duty_cycle) {
 
 Status TIM1_Servo_Init(TIM1_Channel channel) {
     //configure PWM output
-    TIM1_PWM_Output_Config config = {
+    TIM1_PWM_Output_Config_t config = {
         .channel = channel,
         .auto_reload = (20000UL - 1UL),
         .duty_cycle = 0.0,

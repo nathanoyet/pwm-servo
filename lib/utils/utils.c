@@ -210,7 +210,7 @@ Status TIM1_CC1_PWM_Servo_Set_Position(float rotate_degrees) {
 /*                                  NVIC Functions                                */
 /**********************************************************************************/
 
-Status NVIC_Enable_IRQ(IRQn_TypeDef IRQn) {
+Status NVIC_Enable_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         NVIC->ISER[((uint32_t) IRQn) >> DIV_BY_32] = ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         return SUCCESS;       
@@ -218,7 +218,7 @@ Status NVIC_Enable_IRQ(IRQn_TypeDef IRQn) {
     return ERROR;
 }
 
-Status NVIC_Disable_IRQ(IRQn_TypeDef IRQn) {
+Status NVIC_Disable_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         NVIC->ICER[((uint32_t) IRQn) >> DIV_BY_32] = ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         return SUCCESS;
@@ -226,7 +226,7 @@ Status NVIC_Disable_IRQ(IRQn_TypeDef IRQn) {
     return ERROR;
 }
 
-uint32_t NVIC_Get_Enable_IRQ(IRQn_TypeDef IRQn) {
+uint32_t NVIC_Get_Enable_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         uint32_t enable_status = (NVIC->ISER[((uint32_t) IRQn) >> DIV_BY_32]) & ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         if (enable_status == 0) {
@@ -239,7 +239,7 @@ uint32_t NVIC_Get_Enable_IRQ(IRQn_TypeDef IRQn) {
     }
 }
 
-Status NVIC_Set_Pending_IRQ(IRQn_TypeDef IRQn) {
+Status NVIC_Set_Pending_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         NVIC->ISPR[((uint32_t) IRQn) >> DIV_BY_32] = ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         return SUCCESS;
@@ -247,7 +247,7 @@ Status NVIC_Set_Pending_IRQ(IRQn_TypeDef IRQn) {
     return ERROR;
 }
 
-Status NVIC_Clear_Pending_IRQ(IRQn_TypeDef IRQn) {
+Status NVIC_Clear_Pending_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         NVIC->ICPR[((uint32_t) IRQn) >> DIV_BY_32] = ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         return SUCCESS;
@@ -255,7 +255,7 @@ Status NVIC_Clear_Pending_IRQ(IRQn_TypeDef IRQn) {
     return ERROR;
 }
 
-uint32_t NVIC_Get_Pending_IRQ(IRQn_TypeDef IRQn) {
+uint32_t NVIC_Get_Pending_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         uint32_t pending_status = (NVIC->ISPR[((uint32_t) IRQn) >> DIV_BY_32]) & ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         if (pending_status == 0) {
@@ -268,7 +268,7 @@ uint32_t NVIC_Get_Pending_IRQ(IRQn_TypeDef IRQn) {
     }
 }
 
-uint32_t NVIC_Get_Active_IRQ(IRQn_TypeDef IRQn) {
+uint32_t NVIC_Get_Active_IRQ(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         uint32_t active_status = (NVIC->IABR[((uint32_t) IRQn) >> DIV_BY_32]) & ((uint32_t) (1UL << (((uint32_t) IRQn) & 0x1FUL)));
         if (active_status == 0) {
@@ -281,7 +281,7 @@ uint32_t NVIC_Get_Active_IRQ(IRQn_TypeDef IRQn) {
     }
 }
 
-Status NVIC_Set_Priority(IRQn_TypeDef IRQn, uint32_t priority) {
+Status NVIC_Set_Priority(IRQn_t IRQn, uint32_t priority) {
     if ((int32_t) IRQn >= 0) {
         NVIC->IPR[(uint32_t) IRQn] = ((uint8_t) ((priority << NVIC_PRIORITY_BITS) & 0xFFUL));
         return SUCCESS;
@@ -296,7 +296,7 @@ Status NVIC_Set_Priority(IRQn_TypeDef IRQn, uint32_t priority) {
     }      
 }
 
-uint32_t NVIC_Get_Priority(IRQn_TypeDef IRQn) {
+uint32_t NVIC_Get_Priority(IRQn_t IRQn) {
     if ((int32_t) IRQn >= 0) {
         uint32_t priority_status = (NVIC->IPR[(uint32_t) IRQn] >> NVIC_PRIORITY_BITS);
         return priority_status;

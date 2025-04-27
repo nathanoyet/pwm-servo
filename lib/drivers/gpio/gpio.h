@@ -89,7 +89,7 @@ typedef enum {
 
 typedef struct {
 /************************************ Required ************************************/
-    GPIO_TypeDef      *port;
+    GPIO_t           *port;
     GPIO_Pin          pin;
     GPIO_Mode         mode;
 /************************************ Optional ************************************/
@@ -97,20 +97,20 @@ typedef struct {
     GPIO_Output_Speed output_speed;
     GPIO_PUPD         pupd;
     GPIO_AF           alt_function;
-} GPIO_Config;
+} GPIO_Config_t;
 
 
 /**********************************************************************************/
 /*                               Function Prototypes                              */
 /**********************************************************************************/
 
-Status    GPIO_Init       (GPIO_Config *gpio_config);
-Bit_State GPIO_Read_Pin   (GPIO_TypeDef *port, GPIO_Pin pin);
-Status    GPIO_Set_Pin    (GPIO_TypeDef *port, GPIO_Pin pin);
-Status    GPIO_Reset_Pin  (GPIO_TypeDef *port, GPIO_Pin pin);
-Status    GPIO_Toggle_Pin (GPIO_TypeDef *port, GPIO_Pin pin);
-Status    GPIO_Lock_Pin   (GPIO_TypeDef *port, GPIO_Pin pin);
-Status    GPIO_Deinit     (GPIO_TypeDef *port, GPIO_Pin pin);
+Status    GPIO_Init       (GPIO_Config_t *gpio_config);
+Bit_State GPIO_Read_Pin   (GPIO_t *port, GPIO_Pin pin);
+Status    GPIO_Set_Pin    (GPIO_t *port, GPIO_Pin pin);
+Status    GPIO_Reset_Pin  (GPIO_t *port, GPIO_Pin pin);
+Status    GPIO_Toggle_Pin (GPIO_t *port, GPIO_Pin pin);
+Status    GPIO_Lock_Pin   (GPIO_t *port, GPIO_Pin pin);
+Status    GPIO_Deinit     (GPIO_t *port, GPIO_Pin pin);
 
 
 

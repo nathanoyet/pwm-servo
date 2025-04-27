@@ -9,7 +9,7 @@
  * @param  gpio_config: Pointer to GPIO_Config structure containing GPIO settings
  * @retval Status indicating success or invalid parameters
  */
-Status GPIO_Init(GPIO_Config *gpio_config) {
+Status GPIO_Init(GPIO_Config_t *gpio_config) {
     //validate config struct pointer
     if (!gpio_config) {
         return INVALID_PARAM;
@@ -67,11 +67,11 @@ Status GPIO_Init(GPIO_Config *gpio_config) {
 
 /**
 * @brief  Deinitialises a GPIO pin
-* @param  port: Pointer to GPIO_TypeDef structure containing the GPIO port
+* @param  port: Pointer to GPIO_t structure containing the GPIO port
 * @param  pin:  Number of the pin to be deinitialised
 * @retval Status indicating success or invalid parameters
 */
-Status GPIO_Deinit(GPIO_TypeDef *port, GPIO_Pin pin) {
+Status GPIO_Deinit(GPIO_t *port, GPIO_Pin pin) {
     //validate port and pin
     if ((!port) || pin < 0 || pin > 15) {
         return INVALID_PARAM;
@@ -105,11 +105,11 @@ Status GPIO_Deinit(GPIO_TypeDef *port, GPIO_Pin pin) {
 
 /**
  * @brief  Reads a GPIO pin to determine bit state
- * @param  port: Pointer to GPIO_TypeDef structure containing the GPIO port
+ * @param  port: Pointer to GPIO_t structure containing the GPIO port
  * @param  pin:  Number of the pin to be read
  * @retval Bit_State indicating whether a bit is set or reset
  */
-Bit_State GPIO_Read_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
+Bit_State GPIO_Read_Pin(GPIO_t *port, GPIO_Pin pin) {
     //validate port and pin
     if ((!port) || pin < 0 || pin > 15) {
         return BIT_INVALID_PARAM;
@@ -125,11 +125,11 @@ Bit_State GPIO_Read_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
 
 /**
  * @brief  Sets a GPIO pin
- * @param  port: Pointer to GPIO_TypeDef structure containing the GPIO port
+ * @param  port: Pointer to GPIO_t structure containing the GPIO port
  * @param  pin:  Number of the pin to be set
  * @retval Status indicating success or invalid parameters
  */
-Status GPIO_Set_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
+Status GPIO_Set_Pin(GPIO_t *port, GPIO_Pin pin) {
     //validate port and pin
     if ((!port) || pin < 0 || pin > 15) {
         return INVALID_PARAM;
@@ -143,11 +143,11 @@ Status GPIO_Set_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
 
 /**
  * @brief  Resets a GPIO pin
- * @param  port: Pointer to GPIO_TypeDef structure containing the GPIO port
+ * @param  port: Pointer to GPIO_t structure containing the GPIO port
  * @param  pin:  Number of the pin to be reset
  * @retval Status indicating success or invalid parameters
  */
-Status GPIO_Reset_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
+Status GPIO_Reset_Pin(GPIO_t *port, GPIO_Pin pin) {
     //validate port and pin
     if ((!port) || pin < 0 || pin > 15) {
         return INVALID_PARAM;
@@ -162,11 +162,11 @@ Status GPIO_Reset_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
 
 /**
 * @brief  Toggles the bit state of a GPIO pin
-* @param  port: Pointer to GPIO_TypeDef structure containing the GPIO port
+* @param  port: Pointer to GPIO_t structure containing the GPIO port
 * @param  pin:  Number of the pin whose bit state will be toggled
 * @retval Status indicating success, error or invalid parameters
 */
-Status GPIO_Toggle_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
+Status GPIO_Toggle_Pin(GPIO_t *port, GPIO_Pin pin) {
     //validate port and pin
     if ((!port) || pin < 0 || pin > 15) {
         return INVALID_PARAM;
@@ -186,11 +186,11 @@ Status GPIO_Toggle_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
 
 /**
 * @brief  Locks the configuration of a specified GPIO pin
-* @param  port: Pointer to GPIO_TypeDef structure containing the GPIO port
+* @param  port: Pointer to GPIO_t structure containing the GPIO port
 * @param  pin:  Number of the pin to be locked
 * @retval Status indicating success, error or invalid parameters
 */
-Status GPIO_Lock_Pin(GPIO_TypeDef *port, GPIO_Pin pin) {
+Status GPIO_Lock_Pin(GPIO_t *port, GPIO_Pin pin) {
     //validate port and pin
     if ((!port) || pin < 0 || pin > 15) {
         return INVALID_PARAM;

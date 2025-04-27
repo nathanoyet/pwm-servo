@@ -124,15 +124,15 @@ Status TIM1_CC1_PWM_Servo_Init         (void);
 Status TIM1_CC1_PWM_Servo_Set_Position (float rotate_degrees);
 
 /********************** Nested Vectored Interrupt Controller **********************/
-Status   NVIC_Enable_IRQ        (IRQn_TypeDef IRQn);
-Status   NVIC_Disable_IRQ       (IRQn_TypeDef IRQn);
-uint32_t NVIC_Get_Enable_IRQ    (IRQn_TypeDef IRQn);
-Status   NVIC_Set_Pending_IRQ   (IRQn_TypeDef IRQn);
-Status   NVIC_Clear_Pending_IRQ (IRQn_TypeDef IRQn);
-uint32_t NVIC_Get_Pending_IRQ   (IRQn_TypeDef IRQn);
-uint32_t NVIC_Get_Active_IRQ    (IRQn_TypeDef IRQn);
-Status   NVIC_Set_Priority      (IRQn_TypeDef IRQn, uint32_t priority);
-uint32_t NVIC_Get_Priority      (IRQn_TypeDef IRQn);
+Status   NVIC_Enable_IRQ        (IRQn_t IRQn);
+Status   NVIC_Disable_IRQ       (IRQn_t IRQn);
+uint32_t NVIC_Get_Enable_IRQ    (IRQn_t IRQn);
+Status   NVIC_Set_Pending_IRQ   (IRQn_t IRQn);
+Status   NVIC_Clear_Pending_IRQ (IRQn_t IRQn);
+uint32_t NVIC_Get_Pending_IRQ   (IRQn_t IRQn);
+uint32_t NVIC_Get_Active_IRQ    (IRQn_t IRQn);
+Status   NVIC_Set_Priority      (IRQn_t IRQn, uint32_t priority);
+uint32_t NVIC_Get_Priority      (IRQn_t IRQn);
 Status   Validate_Priority      (uint32_t priority);
 
 

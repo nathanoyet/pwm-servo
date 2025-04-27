@@ -157,7 +157,7 @@ typedef struct {
     TIM1_DMA            dma_enable;
     TIM1_Update_Event   update_event;
     TIM1_Update_Request update_request;
-} TIM1_CNT_Config;
+} TIM1_CNT_Config_t;
 
 typedef struct {
 /************************************ Required ************************************/
@@ -170,7 +170,7 @@ typedef struct {
     TIM1_CC_Interrupt       interrupt_enable;
     uint32_t                interrupt_priority;     
     TIM1_CC_DMA             dma_enable;
-} TIM1_IC_Config;
+} TIM1_IC_Config_t;
 
 typedef struct {
 /************************************ Required ************************************/
@@ -192,7 +192,7 @@ typedef struct {
     TIM1_CC_DMA            dma_enable_1;
     TIM1_CC_DMA            dma_enable_2;
     TIM1_EXT_TRG_Selection trigger_selection;
-} TIM1_PWM_Input_Config;
+} TIM1_PWM_Input_Config_t;
 
 typedef struct {
 /************************************ Required ************************************/
@@ -208,7 +208,7 @@ typedef struct {
     TIM1_CC_Interrupt       interrupt_enable;
     uint32_t                interrupt_priority;
     TIM1_CC_DMA             dma_enable;
-} TIM1_OC_Config;
+} TIM1_OC_Config_t;
 
 typedef struct {
 /************************************ Required ************************************/
@@ -223,20 +223,20 @@ typedef struct {
     TIM1_CC_Interrupt       interrupt_enable;
     uint32_t                interrupt_priority;
     TIM1_CC_DMA             dma_enable;
-} TIM1_PWM_Output_Config;
+} TIM1_PWM_Output_Config_t;
 
 
 /**********************************************************************************/
 /*                               Function Prototypes                              */
 /**********************************************************************************/
 
-Status TIM1_CNT_Init             (TIM1_CNT_Config *cnt_config);
-Status TIM1_MS_Base_Init         (TIM1_CNT_Config *cnt_config);
+Status TIM1_CNT_Init             (TIM1_CNT_Config_t *cnt_config);
+Status TIM1_MS_Base_Init         (TIM1_CNT_Config_t *cnt_config);
 Status TIM1_Delay                (uint32_t delay_ms);
-Status TIM1_IC_Init              (TIM1_IC_Config *ic_config);
-Status TIM1_PWM_Input_Init       (TIM1_PWM_Input_Config *pwm_input_config);
-Status TIM1_OC_Init              (TIM1_OC_Config *oc_config);
-Status TIM1_PWM_Output_Init      (TIM1_PWM_Output_Config *pwm_output_config);
+Status TIM1_IC_Init              (TIM1_IC_Config_t *ic_config);
+Status TIM1_PWM_Input_Init       (TIM1_PWM_Input_Config_t *pwm_input_config);
+Status TIM1_OC_Init              (TIM1_OC_Config_t *oc_config);
+Status TIM1_PWM_Output_Init      (TIM1_PWM_Output_Config_t *pwm_output_config);
 Status TIM1_PWM_Set_Duty_Cycle   (TIM1_Channel channel, float duty_cycle_input);
 Status TIM1_Servo_Init           (TIM1_Channel channel);
 Status TIM1_Servo_Set_Position   (TIM1_Channel channel, float degrees);

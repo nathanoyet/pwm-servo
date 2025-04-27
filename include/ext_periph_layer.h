@@ -91,7 +91,7 @@ typedef enum {
     FPU_IRQn                = 81,
     SPI4_IRQn               = 84,
     SPI5_IRQn               = 85,
-} IRQn_TypeDef;
+} IRQn_t;
 
 
 /**********************************************************************************/
@@ -106,7 +106,7 @@ typedef struct {
     volatile uint32_t FTSR;
     volatile uint32_t SWIER;
     volatile uint32_t PR;
-} EXTI_TypeDef;
+} EXTI_t;
 
 /***************** GPIO Peripheral register structure definition ******************/
 typedef struct {
@@ -119,7 +119,7 @@ typedef struct {
     volatile uint32_t BSRR;
     volatile uint32_t LCKR;
     volatile uint32_t AFR[2];
-} GPIO_TypeDef;
+} GPIO_t;
 
 /****************** RCC Peripheral register structure definition ******************/
 typedef struct {
@@ -152,7 +152,7 @@ typedef struct {
     volatile uint32_t PLLI2SCFGR;
     uint32_t RESERVED_7;
     volatile uint32_t DCKCFGR;
-} RCC_TypeDef;
+} RCC_t;
 
 /********* System Configuration Controller register structure definition **********/
 typedef struct {
@@ -164,7 +164,7 @@ typedef struct {
     volatile uint32_t EXTICR4;
     uint32_t RESERVED[2];
     volatile uint32_t CMPCR;
-} SYSCFG_TypeDef;
+} SYSCFG_t;
 
 /************************ TIM register structure definition ***********************/
 typedef struct {
@@ -188,7 +188,7 @@ typedef struct {
     volatile uint32_t BDTR;
     volatile uint32_t DCR;
     volatile uint32_t DMAR;
-} TIM_TypeDef;
+} TIM_t;
 
 /*********************** USART register structure definition **********************/
 typedef struct {
@@ -199,28 +199,28 @@ typedef struct {
     volatile uint32_t CR2;
     volatile uint32_t CR3;
     volatile uint32_t GTPR;
-} USART_TypeDef;
+} USART_t;
 
 
 /**********************************************************************************/
 /*                        External Peripheral Declaration                         */
 /**********************************************************************************/
-#define EXTI                        ((EXTI_TypeDef *) EXTI_BASE)
+#define EXTI                        ((EXTI_t *) EXTI_BASE)
 
-#define GPIOA                       ((GPIO_TypeDef *) GPIOA_BASE)
-#define GPIOB                       ((GPIO_TypeDef *) GPIOB_BASE)
-#define GPIOC                       ((GPIO_TypeDef *) GPIOC_BASE)
-#define GPIOD                       ((GPIO_TypeDef *) GPIOD_BASE)
-#define GPIOE                       ((GPIO_TypeDef *) GPIOE_BASE)
-#define GPIOH                       ((GPIO_TypeDef *) GPIOH_BASE)
+#define GPIOA                       ((GPIO_t *) GPIOA_BASE)
+#define GPIOB                       ((GPIO_t *) GPIOB_BASE)
+#define GPIOC                       ((GPIO_t *) GPIOC_BASE)
+#define GPIOD                       ((GPIO_t *) GPIOD_BASE)
+#define GPIOE                       ((GPIO_t *) GPIOE_BASE)
+#define GPIOH                       ((GPIO_t *) GPIOH_BASE)
 
-#define RCC                         ((RCC_TypeDef *) RCC_BASE)
-#define SYSCFG                      ((SYSCFG_TypeDef *) SYSCFG_BASE)
+#define RCC                         ((RCC_t *) RCC_BASE)
+#define SYSCFG                      ((SYSCFG_t *) SYSCFG_BASE)
 
-#define TIM1                        ((TIM_TypeDef *) TIM1_BASE)
-#define USART1                      ((USART_TypeDef *) USART1_BASE)
-#define USART2                      ((USART_TypeDef *) USART2_BASE)
-#define USART6                      ((USART_TypeDef *) USART6_BASE)
+#define TIM1                        ((TIM_t *) TIM1_BASE)
+#define USART1                      ((USART_t *) USART1_BASE)
+#define USART2                      ((USART_t *) USART2_BASE)
+#define USART6                      ((USART_t *) USART6_BASE)
 
 
 /**********************************************************************************/

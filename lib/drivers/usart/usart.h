@@ -74,7 +74,7 @@ typedef enum {
 
 typedef struct {
 /************************************ Required ************************************/
-    USART_TypeDef          *instance;
+    USART_t                *instance;
     uint32_t               baud_rate;
     uint32_t               interrupt_priority;
 /************************************ Optional ************************************/
@@ -89,31 +89,31 @@ typedef struct {
     USART_Interrupt        cts_interrupt_enable;
     USART_Interrupt        error_interrupt_enable;
     USART_Interrupt        lbd_interrupt_enable;
-} USART_Init_Config;
+} USART_Init_Config_t;
 
 
 typedef struct {
 /************************************ Required ************************************/
-    uint8_t           *tx_buffer;
-    uint16_t          tx_length;
-    uint16_t          tx_index;
-    USART_Status      tx_status;
-    uint8_t           *rx_buffer;
-    uint16_t          rx_length;
-    uint16_t          rx_index;
-    USART_Status      rx_status;
-    USART_Init_Config *init_config;
-} USART_State_Config;
+    uint8_t             *tx_buffer;
+    uint16_t            tx_length;
+    uint16_t            tx_index;
+    USART_Status        tx_status;
+    uint8_t             *rx_buffer;
+    uint16_t            rx_length;
+    uint16_t            rx_index;
+    USART_Status        rx_status;
+    USART_Init_Config_t *init_config;
+} USART_State_Config_t;
 
-static USART_State_Config usart_states[3] = {0};
+static USART_State_Config_t usart_states[3] = {0};
 
 
 /**********************************************************************************/
 /*                               Function Prototypes                              */
 /**********************************************************************************/
 
-Status             USART_Init(USART_Init_Config *init_config);
-static USART_Index Get_USART_Index(USART_TypeDef *instance);
+Status             USART_Init(USART_Init_Config_t *init_config);
+static USART_Index Get_USART_Index(USART_t *instance);
 void               USART_IRQHandler(USART_Index usart_index);
 void               USART1_IRQHandler(void);
 void               USART2_IRQHandler(void);
