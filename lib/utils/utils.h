@@ -95,6 +95,8 @@ volatile uint32_t                   g_systick_time;
 
 /************************************** TIM1 **************************************/
 volatile uint32_t                   g_tim1_time;
+volatile uint32_t                   g_tim1_subtime;
+volatile uint32_t                   g_tim1_subticks_per_tick;
 volatile float                      g_tim1_tick_time;
 volatile uint32_t                   g_curr_cc1;
 volatile uint32_t                   g_prev_cc1;

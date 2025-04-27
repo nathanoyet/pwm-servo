@@ -110,35 +110,53 @@ Status TIM1_CNT_Init(TIM1_CNT_Config_t *cnt_config) {
 }
 
 /**
- * @brief  Initialises TIM1 time-base unit in milliseconds (ms)
+ * @brief  Initialises TIM1 as a time base
  * @note   Can be called independent of counter initialisation via @ref TIM1_CNT_Init
  * @param  cnt_config: Pointer to TIM1_CNT_Config structure containing counter settings
+ * @param  unit:       Unit of time for the time base. Limited to seconds, milliseconds and microseconds
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_MS_Base_Init(TIM1_CNT_Config_t *cnt_config) {
+Status TIM1_Base_Init(TIM1_CNT_Config_t *cnt_config, TIM1_Base_Unit unit) {
     //set global tim1 time to 0
     g_tim1_time = 0;
 
+    //calculate counter overflows required per unit of time
+    switch (unit) {
+        case TIM1_UNIT_SEC: g_tim1_subticks_per_tick = (g_sys_clk_freq / cnt_config->auto_reload); break;
+        case TIM1_UNIT_MILLI: {
+            g_tim1_subticks_per_tick = ((g_sys_clk_freq / SEC_TO_MILLI) / cnt_config->auto_reload); break;
+        }
+        case TIM1_UNIT_MICRO: {
+            g_tim1_subticks_per_tick = ((g_sys_clk_freq / SEC_TO_MICRO) / cnt_config->auto_reload); break;
+        }
+        default: return INVALID_PARAM;
+    }
+
+    //set minimum subticks per tick
+    if (g_tim1_subticks_per_tick <= 0) {
+        g_tim1_subticks_per_tick = 1;
+    }
+    
     return TIM1_CNT_Init(cnt_config);
 }
 
 /**
  * @brief  Delays program execution
- * @note   Assumes TIM1 has been configured as a time-base unit via @ref TIM1_MS_Base_Init
- * @param  delay_ms: The delay in milliseconds (ms)
+ * @note   Assumes TIM1 has been configured as a time base unit via @ref TIM1_Base_Init
+ * @param  time_delay: The desired time delay
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_Delay(uint32_t delay_ms) {
+Status TIM1_Delay(uint32_t time_delay) {
     //validate delay in ms
-    if (delay_ms <= 0) {
+    if (time_delay <= 0) {
         return INVALID_PARAM;
     }
 
     //save current tim1 time
     uint32_t prev_tim1_time = g_tim1_time;
 
-    //loop while tim1 time elapsed < delay in ms
-    while ((g_tim1_time - prev_tim1_time) < delay_ms) {
+    //wait for time delay to elapse
+    while ((g_tim1_time - prev_tim1_time) < time_delay) {
         NOP();
     }
 
@@ -592,7 +610,11 @@ Status Validate_TIM1_Channel(TIM1_Channel channel) {
 void TIM1_UP_TIM10_IRQHandler(void) {
     if (TIM1->SR & TIM_SR_UIF) {
         TIM1->SR &= ~(TIM_SR_UIF);
-        g_tim1_time++;
+        g_tim1_subtime++;
+        if (g_tim1_subtime <= g_tim1_subticks_per_tick) {
+            g_tim1_time++;
+            g_tim1_subtime = 0;
+        }
     }
 }
 
