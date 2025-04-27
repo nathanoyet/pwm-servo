@@ -245,6 +245,7 @@ Status TIM1_PWM_Input_Init       (TIM1_PWM_Input_Config_t *pwm_input_config);
 Status TIM1_OC_Init              (TIM1_OC_Config_t *oc_config);
 Status TIM1_PWM_Output_Init      (TIM1_PWM_Output_Config_t *pwm_output_config);
 Status TIM1_PWM_Set_Duty_Cycle   (TIM1_Channel channel, float duty_cycle_input);
+Status TIM1_Deinit               (void);
 Status TIM1_Servo_Init           (TIM1_Channel channel);
 Status TIM1_Servo_Set_Position   (TIM1_Channel channel, float degrees);
 Status Validate_TIM1_Channel     (TIM1_Channel channel);

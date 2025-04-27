@@ -549,7 +549,25 @@ Status TIM1_PWM_Set_Duty_Cycle(TIM1_Channel channel, float duty_cycle) {
     return SUCCESS;
 }
 
-//include function to deinitalise a configured timer?
+/**
+ * @brief  Deinitialises TIM1
+ * @retval Status indicating success
+ */
+Status TIM1_Deinit(void) {
+    //disable tim1
+    TIM1->CR1 &= ~(TIM_CR1_CEN);
+
+    //disable interrupts and dma requests
+    TIM1->DIER = CLEAR_REGISTER;
+
+    //disable tim1 clock
+    RCC->APB2ENR &= ~(RCC_APB2ENR_TIM1EN);
+
+    //reset tim1
+    RCC->APB2RSTR |= RCC_APB2RSTR_TIM1RST;
+
+    return SUCCESS;
+}
 
 
 /**********************************************************************************/
