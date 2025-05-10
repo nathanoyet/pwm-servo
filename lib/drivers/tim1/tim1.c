@@ -110,44 +110,40 @@ Status TIM1_CNT_Init(TIM1_CNT_Config_t *cnt_config) {
 }
 
 /**
- * @brief  Initialises TIM1 as a time base
- * @note   Can be called independent of counter initialisation via @ref TIM1_CNT_Init
- * @param  cnt_config: Pointer to TIM1_CNT_Config structure containing counter settings
- * @param  unit:       Unit of time for the time base. Limited to seconds, milliseconds and microseconds
+ * @brief  Initialises TIM1 as a time base in milli-seconds
+ * @note   This function is called independent of counter initialisation via @ref TIM1_CNT_Init
  * @retval Status indicating success or invalid parameters
  */
-Status TIM1_Base_Init(TIM1_CNT_Config_t *cnt_config, TIM1_Base_Unit unit) {
+Status TIM1_MS_Base_Init(void) {
     //set global tim1 time to 0
     g_tim1_time = 0;
 
-    //calculate counter overflows required per unit of time
-    switch (unit) {
-        case TIM1_UNIT_SEC: g_tim1_subticks_per_tick = (g_sys_clk_freq / cnt_config->auto_reload); break;
-        case TIM1_UNIT_MILLI: {
-            g_tim1_subticks_per_tick = ((g_sys_clk_freq / SEC_TO_MILLI) / cnt_config->auto_reload); break;
-        }
-        case TIM1_UNIT_MICRO: {
-            g_tim1_subticks_per_tick = ((g_sys_clk_freq / SEC_TO_MICRO) / cnt_config->auto_reload); break;
-        }
-        default: return INVALID_PARAM;
+    //calculate appropriate prescaler value based on system clock frequency
+    uint16_t prescaler_val = 0UL;
+    if (g_sys_clk_source == HSI_CLOCK) {
+        prescaler_val = 16UL;
+    } else if (g_sys_clk_source == HSE_CLOCK) {
+        prescaler_val = 25UL;
     }
 
-    //set minimum subticks per tick
-    if (g_tim1_subticks_per_tick <= 0) {
-        g_tim1_subticks_per_tick = 1;
-    }
+    //configure settings for time base
+    TIM1_CNT_Config_t base_config = {
+        .auto_reload = (1000UL - 1UL),
+        .prescaler   = prescaler_val,
+        .interrupt_enable = TIM1_INTERRUPT_ENABLED
+    };
     
-    return TIM1_CNT_Init(cnt_config);
+    return TIM1_CNT_Init(&base_config);
 }
 
 /**
  * @brief  Delays program execution
  * @note   Assumes TIM1 has been configured as a time base unit via @ref TIM1_Base_Init
- * @param  time_delay: The desired time delay
+ * @param  time_delay: The desired time delay in milli-seconds
  * @retval Status indicating success or invalid parameters
  */
 Status TIM1_Delay(uint32_t time_delay) {
-    //validate delay in ms
+    //validate delay
     if (time_delay <= 0) {
         return INVALID_PARAM;
     }
@@ -628,11 +624,7 @@ Status Validate_TIM1_Channel(TIM1_Channel channel) {
 void TIM1_UP_TIM10_IRQHandler(void) {
     if (TIM1->SR & TIM_SR_UIF) {
         TIM1->SR &= ~(TIM_SR_UIF);
-        g_tim1_subtime++;
-        if (g_tim1_subtime <= g_tim1_subticks_per_tick) {
-            g_tim1_time++;
-            g_tim1_subtime = 0;
-        }
+        g_tim1_time++;
     }
 }
 

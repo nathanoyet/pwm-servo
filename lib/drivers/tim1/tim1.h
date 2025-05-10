@@ -140,12 +140,6 @@ typedef enum {
     TIM1_OC_FAST_ENABLE_ON
 } TIM1_OC_Fast_Enable;
 
-typedef enum {
-    TIM1_UNIT_SEC = 0,
-    TIM1_UNIT_MILLI,
-    TIM1_UNIT_MICRO
-} TIM1_Base_Unit;
-
 
 /**********************************************************************************/
 /*                              Configuration Structs                             */
@@ -168,8 +162,8 @@ typedef struct {
 
 typedef struct {
 /************************************ Required ************************************/
-    TIM1_Channel      channel;
-    TIM1_CC_Selection selection;
+    TIM1_Channel            channel;
+    TIM1_CC_Selection       selection;
 /************************************ Optional ************************************/
     TIM1_CC_Prescaler       prescaler;
     TIM1_CC_Filter          filter;
@@ -238,7 +232,7 @@ typedef struct {
 /**********************************************************************************/
 
 Status TIM1_CNT_Init             (TIM1_CNT_Config_t *cnt_config);
-Status TIM1_Base_Init            (TIM1_CNT_Config_t *cnt_config, TIM1_Base_Unit unit);
+Status TIM1_MS_Base_Init         (void);
 Status TIM1_Delay                (uint32_t time_delay);
 Status TIM1_IC_Init              (TIM1_IC_Config_t *ic_config);
 Status TIM1_PWM_Input_Init       (TIM1_PWM_Input_Config_t *pwm_input_config);
