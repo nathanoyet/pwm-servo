@@ -201,6 +201,7 @@ Status GPIO_Lock_Pin(GPIO_t *port, GPIO_Pin pin) {
     port->LCKR = (SET_ONE << pin);
     port->LCKR |= (GPIO_LCKR_LCKK | (SET_ONE << pin));
     uint32_t temp = port->LCKR;
+    (void)temp;
 
     //validate lock
     if (!(port->LCKR & GPIO_LCKR_LCKK)) {
