@@ -119,7 +119,7 @@ Status TIM1_MS_Base_Init(void) {
     g_tim1_time = 0;
 
     //calculate appropriate prescaler value based on system clock frequency
-    uint16_t prescaler_val = 0UL;
+    uint16_t prescaler_val = 1UL;
     if (g_sys_clk_source == HSI_CLOCK) {
         prescaler_val = 16UL;
     } else if (g_sys_clk_source == HSE_CLOCK) {
@@ -128,7 +128,7 @@ Status TIM1_MS_Base_Init(void) {
 
     //configure settings for time base
     TIM1_CNT_Config_t base_config = {
-        .auto_reload = (1000UL - 1UL),
+        .auto_reload = 1000UL,
         .prescaler   = prescaler_val,
         .interrupt_enable = TIM1_INTERRUPT_ENABLED
     };
