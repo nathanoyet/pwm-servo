@@ -48,25 +48,25 @@ typedef enum {
 /**********************************************************************************/
 
 /********************************** System Clock **********************************/
-static const uint32_t HSI_FREQ_HZ          = 16000000U;
-static const uint32_t HSE_FREQ_HZ          = 25000000U;
-static const uint32_t LSI_FREQ_HZ          = 32000U;
-static const uint32_t LSE_FREQ_HZ          = 32768U;
+static const uint32_t HSI_FREQ_HZ      = 16000000U;
+static const uint32_t HSE_FREQ_HZ      = 25000000U;
+static const uint32_t LSI_FREQ_HZ      = 32000U;
+static const uint32_t LSE_FREQ_HZ      = 32768U;
 
 /*********************************** System Time **********************************/
-static const uint32_t SEC_TO_MILLI         = 1000U;
-static const uint32_t SEC_TO_MICRO         = 1000000U;
-static const uint32_t SEC_TO_NANO          = 1000000000U;
+static const uint32_t SEC_TO_MILLI     = 1000U;
+static const uint32_t SEC_TO_MICRO     = 1000000U;
+static const uint32_t SEC_TO_NANO      = 1000000000U;
 
 /************************************* Timers *************************************/
-static const uint32_t TIM1_CNT_VAL_MAX     = (0xFFFFUL);
+static const uint32_t TIM1_CNT_VAL_MAX = (0xFFFFUL);
 
 /*************************** Standard Bit Shift Divisors **************************/
-static const uint32_t DIV_BY_2             = 1U;
-static const uint32_t DIV_BY_4             = 2U;
-static const uint32_t DIV_BY_8             = 3U;
-static const uint32_t DIV_BY_16            = 4U;
-static const uint32_t DIV_BY_32            = 8U;
+static const uint32_t DIV_BY_2         = 1U;
+static const uint32_t DIV_BY_4         = 2U;
+static const uint32_t DIV_BY_8         = 3U;
+static const uint32_t DIV_BY_16        = 4U;
+static const uint32_t DIV_BY_32        = 8U;
 
 
 /**********************************************************************************/
