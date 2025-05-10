@@ -10,7 +10,6 @@
 
 #include "../lib/drivers/gpio/gpio.h"
 #include "../lib/drivers/tim1/tim1.h"
-#include "../lib/utils/utils.h"
 
 
 /* end C linkage and return to C++ linkage */
