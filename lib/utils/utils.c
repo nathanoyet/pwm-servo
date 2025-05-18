@@ -209,7 +209,8 @@ Status TIM1_CC1_PWM_Servo_Init(void) {
     TIM1->CR1 |= TIM_CR1_ARPE;
     TIM1->ARR = (20000UL - 1UL);
 
-    //TIM1->CCR1 = 1500UL;
+    TIM1->CCR1 = 2167UL;
+    // TIM1->CCR1 = 0UL;
 
     TIM1->CCER &= ~(TIM_CCER_CC1E);
 
@@ -235,9 +236,10 @@ Status TIM1_CC1_PWM_Servo_Set_Position(float rotate_degrees) {
     if (rotate_degrees < 0 || rotate_degrees > 180) {
         return ERROR;
     }
-    float duty_cycle = (0.03 + ((rotate_degrees / 180.0) * 0.09));
+    float duty_cycle = (0.025 + ((rotate_degrees / 180.0) * 0.10));
     TIM1->CCR1 = (uint32_t)(((float) TIM1->ARR) * duty_cycle);
     TIM1->EGR |= TIM_EGR_UG;
+
     return SUCCESS;
 }
 

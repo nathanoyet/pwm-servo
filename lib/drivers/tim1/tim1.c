@@ -112,13 +112,14 @@ Status TIM1_CNT_Init(TIM1_CNT_Config_t *cnt_config) {
 /**
  * @brief  Initialises TIM1 as a time base in milli-seconds
  * @note   This function is called independent of counter initialisation via @ref TIM1_CNT_Init
+ *         If configured as a time base, TIM1 should not be used for any other functionality
  * @retval Status indicating success or invalid parameters
  */
 Status TIM1_MS_Base_Init(void) {
     //set global tim1 time to 0
     g_tim1_time = 0;
 
-    //calculate appropriate prescaler value based on system clock frequency
+    //calculate appropriate prescaler value based on system clock source
     uint16_t prescaler_val = 1UL;
     if (g_sys_clk_source == HSI_CLOCK) {
         prescaler_val = 16UL;
@@ -495,6 +496,7 @@ Status TIM1_PWM_Output_Init(TIM1_PWM_Output_Config_t *pwm_output_config) {
     TIM1_OC_Config_t pwm_channel = {
         .channel            = pwm_output_config->channel,
         .auto_reload        = pwm_output_config->auto_reload,
+        .prescaler          = pwm_output_config->prescaler,
         .compare_value      = (uint16_t)(((float) pwm_output_config->auto_reload) 
                               * pwm_output_config->duty_cycle),
         .oc_mode            = pwm_output_config->oc_mode,
@@ -570,15 +572,31 @@ Status TIM1_Deinit(void) {
 /*                              TIM1 Other Functions                              */
 /**********************************************************************************/
 
+/**
+ * @brief  Initialises TIM1 in PWM output mode to drive a servo motor
+ * @note   Assumes TIM1 has been configured in counter mode via @ref TIM1_CNT_Init
+ * @note   The default duty cycle set of 2.5% sets the servo position to 0 degrees
+ * @param  channel: TIM1 channel to be used to drive the servo motor
+ * @retval Status indicating success or invalid parameters
+ */
 Status TIM1_Servo_Init(TIM1_Channel channel) {
+    //set prescaler value based on system clock source
+    uint16_t prescaler_val = 1UL;
+    if (g_sys_clk_source == HSI_CLOCK) {
+        prescaler_val = 16UL;
+    } else if (g_sys_clk_source == HSE_CLOCK) {
+        prescaler_val = 25UL;
+    }
+
     //configure PWM output
     TIM1_PWM_Output_Config_t config = {
-        .channel = channel,
+        .channel     = channel,
         .auto_reload = (20000UL - 1UL),
-        .duty_cycle = 0.0,
-        .oc_mode = TIM1_OCM_PWM_1,
-        .polarity = TIM1_CC_ACTIVE_HIGH,
-        .preload = TIM1_OC_PRELOAD_ENABLED
+        .prescaler   = prescaler_val,
+        .duty_cycle  = 0.025,
+        .oc_mode     = TIM1_OCM_PWM_1,
+        .polarity    = TIM1_CC_ACTIVE_HIGH,
+        .preload     = TIM1_OC_PRELOAD_ENABLED
     };
 
     //initialise PWM output
@@ -589,6 +607,7 @@ Status TIM1_Servo_Init(TIM1_Channel channel) {
     return SUCCESS;
 }
 
+//include note saying that the servo duty cycle formula is custom to the FS5109M servo
 Status TIM1_Servo_Set_Position(TIM1_Channel channel, float degrees) {
     //validate degrees
     if (degrees < 0 || degrees > 180) {
@@ -596,7 +615,7 @@ Status TIM1_Servo_Set_Position(TIM1_Channel channel, float degrees) {
     }
 
     //calculate duty cycle
-    float duty_cycle = (0.03 + ((degrees / 180.0) * 0.09));
+    float duty_cycle = (0.025 + ((degrees / 180.0) * 0.10));
 
     //set duty cycle
     if (TIM1_PWM_Set_Duty_Cycle(channel, duty_cycle) == INVALID_PARAM) {

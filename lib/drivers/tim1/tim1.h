@@ -215,6 +215,7 @@ typedef struct {
 /************************************ Required ************************************/
     TIM1_Channel            channel;
     int                     auto_reload;
+    int                     prescaler;
     float                   duty_cycle;
     TIM1_OC_Mode            oc_mode;
 /************************************ Optional ************************************/
