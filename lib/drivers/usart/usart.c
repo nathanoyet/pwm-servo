@@ -147,7 +147,8 @@ Status USART_Init(USART_Init_Config_t *init_config) {
 }
 
 
-
+//include a note on how when a string is passed, strlen((char *) tx_data) should be used to find tx_length
+//otherwise tx_length should be specified
 Status USART_Transmit(USART_Init_Config_t *init_config, uint8_t *tx_data, uint16_t tx_length) {
     //validate config struct pointer and length
     if ((!(init_config)) || tx_length <= 0) {
