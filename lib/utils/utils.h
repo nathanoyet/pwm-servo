@@ -126,11 +126,6 @@ void   Delay_Loop          (uint32_t delay_duration_ms);
 Status Validate_uint8_t  (int value);
 Status Validate_uint16_t (int value);
 
-/************************************** TIM1 **************************************/
-Status TIM1_CC1_PWM_Output_Config      (float duty_cycle_input);
-Status TIM1_CC1_PWM_Servo_Init         (void);
-Status TIM1_CC1_PWM_Servo_Set_Position (float rotate_degrees);
-
 /********************** Nested Vectored Interrupt Controller **********************/
 Status   NVIC_Enable_IRQ        (IRQn_t IRQn);
 Status   NVIC_Disable_IRQ       (IRQn_t IRQn);
